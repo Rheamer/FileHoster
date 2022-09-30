@@ -12,7 +12,9 @@ public class LogInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(
-            HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Object handler, Exception ex)
             throws Exception {
         if (ex != null){
             ex.printStackTrace();
