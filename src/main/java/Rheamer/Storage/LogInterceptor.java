@@ -19,6 +19,6 @@ public class LogInterceptor implements HandlerInterceptor {
         if (ex != null){
             ex.printStackTrace();
         }
-        requestRepo.save(request);
+        requestRepo.save(RequestInfo.of(request));
     }
 }

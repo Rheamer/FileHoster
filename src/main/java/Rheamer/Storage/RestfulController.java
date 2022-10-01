@@ -10,14 +10,13 @@ public class RestfulController {
 
     PhotoBrokerService messageQueue;
 
-    @Autowired
     public RestfulController(){
         messageQueue = new KafkaPhotoUploadService();
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping("/uploadPhoto/{userId}")
-    public void uploadFile(@PathVariable("userId") Long id, @RequestBody PhotoDto photoDto){
+    @PostMapping("/uploadPhoto")
+    public void uploadFile(@RequestBody PhotoDto photoDto){
         DtoMapperPhoto.validate(photoDto);
         var photo = DtoMapperPhoto.toPhoto(photoDto);
         messageQueue.sendPhoto(photo);
