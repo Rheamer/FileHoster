@@ -7,12 +7,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(produces = "application/json")
 public class RestfulController {
-
-    PhotoBrokerService messageQueue;
-
-    public RestfulController(){
-        messageQueue = new KafkaPhotoUploadService();
-    }
+    @Autowired
+    KafkaPhotoUploadService messageQueue;
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/uploadPhoto")
