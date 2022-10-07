@@ -1,6 +1,7 @@
 package Rheamer.Storage.config.kafka;
 
 import Rheamer.Storage.models.File;
+import Rheamer.Storage.models.FileDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -16,19 +17,19 @@ import java.util.Map;
 public class KafkaConfig {
 
     @Bean
-    public ProducerFactory<String, File> producerFactory() {
+    public ProducerFactory<String, FileDto> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
                 StringSerializer.class);
         configProps.put(
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class);
+                FileDtoSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
     @Bean
-    public KafkaTemplate<String, File> kafkaTemplate() {
+    public KafkaTemplate<String, FileDto> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }
