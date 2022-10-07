@@ -1,4 +1,4 @@
-package Rheamer.Storage;
+package Rheamer.Storage.models;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 @Data
@@ -22,12 +21,21 @@ public class RequestInfo {
 
     public RequestInfo(HttpServletRequest req){
         this.info = req.toString();
+        this.sourceAddress = req.getRemoteAddr();
+        this.requestUri = req.getRequestURI();
     }
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long requestInfo;
 
+    @Column(nullable = false)
+    private String sourceAddress;
+
+    @Column(nullable = false)
+    private String requestUri;
+
     @Column(nullable=false, length=500)
     private String info;
+
 }

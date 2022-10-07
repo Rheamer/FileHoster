@@ -1,4 +1,4 @@
-package Rheamer.Storage;
+package Rheamer.Storage.models;
 
 import lombok.Builder;
 
