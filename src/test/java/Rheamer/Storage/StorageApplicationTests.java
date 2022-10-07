@@ -1,10 +1,10 @@
 package Rheamer.Storage;
 
-import Rheamer.Storage.models.utils.DtoMapperPhoto;
-import Rheamer.Storage.models.Photo;
-import Rheamer.Storage.models.PhotoDto;
+import Rheamer.Storage.models.utils.DtoMapperFile;
+import Rheamer.Storage.models.File;
+import Rheamer.Storage.models.FileDto;
 import Rheamer.Storage.repositories.RequestRepository;
-import Rheamer.Storage.services.KafkaPhotoUploadService;
+import Rheamer.Storage.services.KafkaFileUploadService;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -47,13 +47,13 @@ class StorageApplicationTests {
 	KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
 	@Autowired
-	private KafkaTemplate<String, Photo> kafkaTemplate;
+	private KafkaTemplate<String, File> kafkaTemplate;
 
 	@Autowired
 	private RequestRepository requestRepository;
 
 	@Autowired
-    KafkaPhotoUploadService kfProducer;
+	KafkaFileUploadService kfProducer;
 	@Autowired
 	private KafkaConsumer consumer;
 
@@ -69,6 +69,16 @@ class StorageApplicationTests {
 	}
 
 	@Test
+	public void requestLoggingTest() throws Exception {
+		var request = MockMvcRequestBuilders.post("/uploadPhoto");
+		JSONObject jo = new JSONObject();
+		jo.put("name", "mydad");
+		jo.put("data", "mydad".getBytes(StandardCharsets.UTF_8));
+		ResultActions response = mockMvc.perform(request);
+		response.andExpect(MockMvcResultMatchers.status().isAccepted());
+	}
+
+	@Test
 	public void uploadPicture() throws Exception {
 		var request = MockMvcRequestBuilders.post("/uploadPhoto");
 		JSONObject jo = new JSONObject();
@@ -81,10 +91,9 @@ class StorageApplicationTests {
 	@Test
 	public void uploadPictureVerbose() throws Exception {
 		var request = MockMvcRequestBuilders.post("/uploadPhoto");
-		var photoDto = new PhotoDto("mydad", "mydad".getBytes(StandardCharsets.UTF_8));
-		DtoMapperPhoto.validate(photoDto);
-		var photo = DtoMapperPhoto.toPhoto(photoDto);
-		kfProducer.sendPhoto(photo);
+		var photoDto = new FileDto("mydad", "mydad".getBytes(StandardCharsets.UTF_8));
+		DtoMapperFile.validate(photoDto);
+		var photo = DtoMapperFile.toFile(photoDto);
 
 	}
 

@@ -1,12 +1,11 @@
 package Rheamer.Storage.models;
 
 import lombok.Builder;
-import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Builder
-public record PhotoDto(
+public record FileDto(
         @NotBlank String name,
         @NotBlank byte[] data) {
 }
