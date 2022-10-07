@@ -1,5 +1,5 @@
 package Rheamer.Storage;
 
-public interface PhotoBrokerService {
+public interface PhotoMessagingService {
     public void sendPhoto(Photo p);
 }

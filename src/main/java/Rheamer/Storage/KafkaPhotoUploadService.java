@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 @Service
-public class KafkaPhotoUploadService implements PhotoBrokerService {
+@Resource(name = "Kafka")
+public class KafkaPhotoUploadService implements PhotoMessagingService {
     private KafkaTemplate<String, Photo> kafkaTemplate;
 
     public KafkaPhotoUploadService(){}
@@ -21,6 +24,6 @@ public class KafkaPhotoUploadService implements PhotoBrokerService {
     }
 
     public void sendPhoto(Photo file) {
-        kafkaTemplate.send("rheamer.storage.topic", file);
+        var res = kafkaTemplate.send("rheamer.storage.topic", file);
     }
 }
