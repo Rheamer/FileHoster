@@ -1,24 +1,29 @@
 package Rheamer.Storage;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class LogInterceptor implements HandlerInterceptor {
     @Autowired
-    RequestRepository requestRepo;
+    private LoggerService loggerService;
 
     @Override
     public void afterCompletion(
             HttpServletRequest request,
             HttpServletResponse response,
-            Object handler, Exception ex)
-            throws Exception {
+            Object handler,
+            @Nullable Exception ex) {
         if (ex != null){
             ex.printStackTrace();
         }
-        requestRepo.save(RequestInfo.of(request));
+        loggerService.saveRequest(RequestInfo.of(request));
     }
 }
