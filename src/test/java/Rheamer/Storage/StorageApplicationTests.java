@@ -1,8 +1,11 @@
 package Rheamer.Storage;
 
-import kafka.controller.KafkaController;
+import Rheamer.Storage.models.utils.DtoMapperPhoto;
+import Rheamer.Storage.models.Photo;
+import Rheamer.Storage.models.PhotoDto;
+import Rheamer.Storage.repositories.RequestRepository;
+import Rheamer.Storage.services.KafkaPhotoUploadService;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.aspectj.lang.annotation.Before;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,7 +26,6 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -51,7 +53,7 @@ class StorageApplicationTests {
 	private RequestRepository requestRepository;
 
 	@Autowired
-	KafkaPhotoUploadService kfProducer;
+    KafkaPhotoUploadService kfProducer;
 	@Autowired
 	private KafkaConsumer consumer;
 

@@ -1,5 +1,7 @@
-package Rheamer.Storage;
+package Rheamer.Storage.config;
 
+import Rheamer.Storage.models.RequestInfo;
+import Rheamer.Storage.services.LoggerService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
