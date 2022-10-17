@@ -16,8 +16,8 @@ public class DtoMapperFile {
         return File.builder()
                 .data(dto.data())
                 .name(dto.name())
-                .size(dto.data().length)
-                .hash(String.valueOf(Arrays.hashCode(dto.data())))
+                .size(dto.data().length())
+                .hash(String.valueOf(dto.data().hashCode()))
                 .build();
     }
 }

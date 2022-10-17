@@ -1,13 +1,12 @@
 package Rheamer.Storage.services;
 
-import Rheamer.Storage.models.File;
 import Rheamer.Storage.models.FileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Service("Kafka")
 public class KafkaFileUploadService implements FileMessagingService {
@@ -26,6 +25,18 @@ public class KafkaFileUploadService implements FileMessagingService {
     }
 
     public void sendFile(FileDto file) {
-        var res = kafkaTemplate.send("rheamer.storage.topic", file);
+        ListenableFuture<SendResult<String, FileDto>> res =
+                kafkaTemplate.send("rheamer.storage.topic", file);
+        res.addCallback(new ListenableFutureCallback<SendResult<String, FileDto>>() {
+            @Override
+            public void onFailure(Throwable ex) {
+                System.out.println("Unable to send file due to : " + ex.getMessage());
+            }
+
+            @Override
+            public void onSuccess(SendResult<String, FileDto> result) {
+                System.out.println("Sent message file with offset=[" + result.getRecordMetadata().offset() + "]");
+            }
+        });
     }
 }

@@ -2,22 +2,21 @@ package Rheamer.Storage.config.kafka;
 
 import Rheamer.Storage.models.FileDto;
 import Rheamer.Storage.models.utils.FileDtoJsonConverter;
+import lombok.NoArgsConstructor;
 import org.apache.kafka.common.serialization.Serializer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
+
+@Service
+@NoArgsConstructor
 public class FileDtoSerializer implements Serializer<FileDto> {
-
     private final String encoding = StandardCharsets.UTF_8.name();
-    private final FileDtoJsonConverter fileDtoJsonConverter;
-
-    @Autowired
-    public FileDtoSerializer(FileDtoJsonConverter fileDtoJsonConverter) {
-        this.fileDtoJsonConverter = fileDtoJsonConverter;
-    }
+    private final FileDtoJsonConverter fileDtoJsonConverter = new FileDtoJsonConverter();
 
     @Override
     public byte[] serialize(String topic, FileDto data) {

@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +22,12 @@ public class RequestInfo {
     }
 
     public RequestInfo(HttpServletRequest req){
-        this.info = req.toString();
         this.sourceAddress = req.getRemoteAddr();
         this.requestUri = req.getRequestURI();
+        var uri = UriComponentsBuilder.
+                fromHttpRequest(new ServletServerHttpRequest(req)).build();
+        this.info = uri.toUriString() + '\n'
+                + uri.getScheme();
     }
 
     @Id

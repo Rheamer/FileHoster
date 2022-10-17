@@ -23,8 +23,7 @@ public class FileUploadRestController {
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping(value = "/uploadPhoto",
-            consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @PostMapping(value = "/uploadFile", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> uploadFile(@Valid @RequestBody FileDto fileDto){
         DtoMapperFile.validate(fileDto);
         messageQueue.sendFile(fileDto);

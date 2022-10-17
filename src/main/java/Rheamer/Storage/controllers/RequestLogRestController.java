@@ -18,8 +18,7 @@ public class RequestLogRestController {
         this.loggerService = loggerService;
     }
 
-    @PostMapping(value = "/logs",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getLogs(@RequestParam String requestUri){
         var requests = loggerService.findRequests(requestUri);
         if (requests == null || requests.size() == 0){
