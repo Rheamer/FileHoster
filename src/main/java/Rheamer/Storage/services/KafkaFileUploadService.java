@@ -20,7 +20,7 @@ public class KafkaFileUploadService implements FileMessagingService {
     }
 
     @Autowired
-    public void setTemplate(KafkaTemplate template){
+    public void setTemplate(KafkaTemplate<String, FileDto> template){
         this.kafkaTemplate = template;
     }
 

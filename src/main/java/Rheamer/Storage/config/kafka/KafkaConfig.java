@@ -2,6 +2,7 @@ package Rheamer.Storage.config.kafka;
 
 import Rheamer.Storage.models.File;
 import Rheamer.Storage.models.FileDto;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -34,4 +35,9 @@ public class KafkaConfig {
     public KafkaTemplate<String, FileDto> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
+
+    public NewTopic adviceTopic() {
+        return new NewTopic("rheamer.storage.topic", 3, (short) 1);
+    }
+
 }

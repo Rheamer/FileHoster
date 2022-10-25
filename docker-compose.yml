@@ -1,10 +1,10 @@
-version: "1"
-
-networks:
-  storage_for_host:
-    driver: host
 
 services:
+  web:
+    image: 'rheamer/filehoster:latest'
+    ports:
+      - '8080:8080'
+
   zookeeper:
     image: 'bitnami/zookeeper:latest'
     ports:
