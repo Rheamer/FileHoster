@@ -3,10 +3,16 @@ PROJECT_VERSION = "1.0.0"
 pipeline {
     agent any
     triggers {
-    githubPush()
+        githubPush()
     }
     stages {
-        stage('SonarQube Allure Build') {
+        stage('Build') {
+            steps {
+                sh "chmod +x ./gradlew"
+                sh './gradlew assemble'
+            }
+        }
+        stage('SonarQube') {
             steps{
                 withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'sonarqubbe') {
                         sh "chmod +x ./gradlew"
@@ -15,27 +21,25 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps{
-               withAllureUpload(serverId: 'localhost', projectId: '1', results: [[path: 'target/allure-results']]) {
-                 sh './gradlew clean build'
-               }
-
-            }
-        }
-
-
-        stage('Deploy') {
-            steps {
-                script {
-                    def container = docker.build()
+        stage('Test') {
+            withAllureUpload(serverId: 'localhost', projectId: '1', results: [[path: 'target/allure-results']]) {
+                steps {
+                    sh './gradlewle test'
                 }
             }
         }
 
+        stage('Build Docker Image') {
+            steps {
+                sh './gradlew docker'
+            }
+        }
 
-
-
+        stage('Run Docker Image') {
+            steps {
+                sh './gradlew dockerRun'
+            }
+        }
 
     }
 }
