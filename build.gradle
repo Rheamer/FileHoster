@@ -12,7 +12,6 @@ sonarqube {
 }
 
 group = 'Rheamer'
-sourceCompatibility = '17'
 
 configurations {
 	compileOnly {
