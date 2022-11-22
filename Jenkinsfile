@@ -6,22 +6,20 @@ pipeline {
     githubPush()
     }
     stages{
-
+        stage('SCM') {
+            checkout scm
+        }
+        stage('SonarQube Analysis') {
+            withSonarQubeEnv() {
+              sh "./gradlew sonarqube"
+            }
+        }
         stage('Build') {
             steps{
-                withMaven(maven: "Maven 3.5.2") {
-                    sh 'mvn clean install'
-                }
+                sh './gradlew build'
             }
         }
 
-        stage('Sonarqube') {
-            steps {
-                withMaven(maven: "Maven 3.5.2") {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
 
         stage('Deploy') {
             steps {
