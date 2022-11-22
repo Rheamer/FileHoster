@@ -13,7 +13,8 @@ pipeline {
                     sh "./gradlew sonarqube"
                 }
             }
-        }
+        }ды
+        
         stage('Build') {
             steps{
                withAllureUpload(serverId: 'localhost', projectId: '1', results: [[path: 'target/allure-results']]) {
