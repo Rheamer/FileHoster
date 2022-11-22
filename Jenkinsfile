@@ -5,16 +5,16 @@ pipeline {
     triggers {
     githubPush()
     }
-    stages{
-
-        stage('SonarQube Analysis') {
+    stages {
+        stage('SonarQube Allure Build') {
             steps{
-                withSonarQubeEnv('sonarq') {
-                    sh "./gradlew sonarqube"
+                withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'sonarqubbe') {
+                        sh "chmod +x ./gradlew"
+                        sh "./gradlew sonarqube"
                 }
             }
-        }ды
-        
+        }
+
         stage('Build') {
             steps{
                withAllureUpload(serverId: 'localhost', projectId: '1', results: [[path: 'target/allure-results']]) {
