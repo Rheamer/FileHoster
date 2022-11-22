@@ -6,9 +6,16 @@ pipeline {
     githubPush()
     }
     stages{
+        stage('SCM') {
+            steps{
+                checkout scm
+            }
+        }
         stage('SonarQube Analysis') {
-            withSonarQubeEnv() {
-              sh "./gradlew sonarqube"
+            steps{
+                withSonarQubeEnv() {
+                    sh "./gradlew sonarqube"
+                }
             }
         }
         stage('Build') {
