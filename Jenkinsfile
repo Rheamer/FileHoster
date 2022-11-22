@@ -7,7 +7,9 @@ pipeline {
     }
     stages{
         stage('SCM') {
-            checkout scm
+            node {
+                checkout scm
+            }
         }
         stage('SonarQube Analysis') {
             withSonarQubeEnv() {
