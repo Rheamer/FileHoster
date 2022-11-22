@@ -6,11 +6,7 @@ pipeline {
     githubPush()
     }
     stages{
-        stage('SCM') {
-            steps{
-                checkout scm
-            }
-        }
+
         stage('SonarQube Analysis') {
             steps{
                 withSonarQubeEnv() {
@@ -20,7 +16,10 @@ pipeline {
         }
         stage('Build') {
             steps{
-                sh './gradlew build'
+               withAllureUpload(serverId: 'localhost', projectId: '1', results: [[path: 'target/allure-results']]) {
+                 sh './gradlew clean build'
+               }
+
             }
         }
 
