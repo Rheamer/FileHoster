@@ -22,8 +22,8 @@ pipeline {
         }
 
         stage('Test') {
-            withAllureUpload(serverId: 'localhost', projectId: '1', results: [[path: 'target/allure-results']]) {
-                steps {
+            steps {
+                withAllureUpload(serverId: 'localhost', projectId: '1', results: [[path: 'target/allure-results']]) {
                     sh './gradlewle test'
                 }
             }
